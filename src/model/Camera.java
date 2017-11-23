@@ -1,0 +1,34 @@
+package model;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+
+import util.FileHandler;
+
+public class Camera {
+	private double d, hx, hy;
+	private Vector V, N;
+	private Point C;
+	
+	public Camera(String filepath){
+		try {
+			FileReader fr = new FileReader(new File(filepath));
+			BufferedReader br = new BufferedReader(fr);
+			
+			this.C = FileHandler.getPoint(br.readLine());
+			this.N = FileHandler.getVector(br.readLine());
+			this.V = FileHandler.getVector(br.readLine());
+			
+			double[] nums = FileHandler.getNumbers(br.readLine());
+			
+			this.d = nums[0];
+			this.hx = nums[1];
+			this.hy = nums[2];
+			
+			br.close();
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+}
