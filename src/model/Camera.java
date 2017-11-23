@@ -20,7 +20,7 @@ public class Camera {
 			this.N = FileHandler.getVector(br.readLine());
 			this.V = FileHandler.getVector(br.readLine());
 			
-			double[] nums = FileHandler.getNumbers(br.readLine());
+			double[] nums = FileHandler.getDoubles(br.readLine());
 			
 			this.d = nums[0];
 			this.hx = nums[1];

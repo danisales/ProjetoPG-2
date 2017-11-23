@@ -3,7 +3,6 @@ import model.Vector;
 import model.Point;
 
 public class FileHandler {
-	
 	public static Vector getVector(String line){
 		String[] vectorStr = line.split(" ");
 		double vX = Double.parseDouble(vectorStr[0]);
@@ -20,7 +19,7 @@ public class FileHandler {
 		return new Point(pX, pY, pZ);
 	}
 
-	public static double[] getNumbers(String line){
+	public static double[] getDoubles(String line){
 		String[] numStr = line.split(" ");
 		double[] numbers = new double[numStr.length];
 		for(int i = 0; i < numStr.length; i++){
