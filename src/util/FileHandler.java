@@ -28,4 +28,13 @@ public class FileHandler {
 		}
 		return numbers;
 	}
+	
+	public static int[] getInts(String line){
+		String[] numStr = line.split(" ");
+		int[] numbers = new int[numStr.length];
+		for(int i = 0; i < numStr.length; i++){
+			numbers[i] = Integer.parseInt(numStr[i]);
+		}
+		return numbers;
+	}
 }
