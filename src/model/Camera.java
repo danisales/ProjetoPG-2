@@ -7,9 +7,9 @@ import java.io.IOException;
 import util.FileHandler;
 
 public class Camera {
-	private double d, hx, hy;
-	private Vector V, N;
-	private Point C;
+	public double d, hx, hy;
+	public Vector V, N;
+	public Point C;
 	
 	public Camera(String filepath){
 		try {

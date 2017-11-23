@@ -1,9 +1,9 @@
 package model;
 
 public class Vector {
-	private double x;
-	private double y;
-	private double z;
+	public double x;
+	public double y;
+	public double z;
 	
 	public Vector(double x, double y, double z){
 		this.x = x;

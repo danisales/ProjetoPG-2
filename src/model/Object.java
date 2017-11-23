@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import util.FileHandler;
 
 public class Object {
-	private ArrayList<Point> points;
-	private ArrayList<Triangle> triangles;
+	public ArrayList<Point> points;
+	public ArrayList<Triangle> triangles;
 	
 	public Object(String filepath){
 		this.points = new ArrayList<Point>();
