@@ -3,12 +3,13 @@ package util;
 import model.Camera;
 import model.Illumination;
 import model.Light;
+import model.Matrix;
 import model.Object;
 import model.Point;
 import model.Triangle;
 
 public class Test {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Camera c = new Camera("inputs/camera.cfg");
 		System.out.println("Camera\n");
 		
@@ -56,5 +57,33 @@ public class Test {
 			System.out.println(l.Il[0] + " " + l.Il[1] + " " + l.Il[2]);
 			System.out.println();
 		}
+
+		
+		int [][] m1 = new int[4][3];
+		int [][] m2 = new int[3][5];
+		
+		System.out.println();
+		System.out.println("Matrix 1:");
+		
+		for(int m = 0;m< 4;m++) {
+			for(int n = 0;n<3;n++) {
+				m1[m][n] = (int) ((int)1+ Math.random()*10);
+				System.out.print(m1[m][n]+" ");
+			}
+			System.out.println();
+		}
+		
+		System.out.println("Matrix 2:");
+		
+		for(int m = 0;m<3;m++) {
+			for(int n = 0;n<5;n++) {
+				m2[m][n] = (int) ((int)1+ Math.random()*10);
+				System.out.print(m2[m][n]+" ");
+			}
+			System.out.println();
+		}
+		System.out.println("Result: ");
+		Matrix.toString(Matrix.multiply(m1, m2));
+		
 	}
 }
