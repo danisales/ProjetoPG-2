@@ -59,14 +59,14 @@ public class Test {
 		}
 
 		
-		int [][] m1 = new int[4][3];
-		int [][] m2 = new int[3][5];
+		int [][] m1 = new int[3][4];
+		int [][] m2 = new int[4][8];
 		
 		System.out.println();
 		System.out.println("Matrix 1:");
 		
-		for(int m = 0;m< 4;m++) {
-			for(int n = 0;n<3;n++) {
+		for(int m = 0;m< 3;m++) {
+			for(int n = 0;n<4;n++) {
 				m1[m][n] = (int) ((int)1+ Math.random()*10);
 				System.out.print(m1[m][n]+" ");
 			}
@@ -75,8 +75,8 @@ public class Test {
 		
 		System.out.println("Matrix 2:");
 		
-		for(int m = 0;m<3;m++) {
-			for(int n = 0;n<5;n++) {
+		for(int m = 0;m<4;m++) {
+			for(int n = 0;n<8;n++) {
 				m2[m][n] = (int) ((int)1+ Math.random()*10);
 				System.out.print(m2[m][n]+" ");
 			}
