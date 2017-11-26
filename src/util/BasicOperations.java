@@ -16,6 +16,10 @@ public class BasicOperations {
 	public static Point pointByConstant(Point p, double c) {
 		return new Point((p.x)*c, (p.y)*c, (p.z)*c);
 	}
+	
+	public static Point dividePointByConstant(Point p, double c) {
+		return new Point((p.x)/c, (p.y)/c, (p.z)/c);
+	}
 
 	public static Vector sumVector(Vector v1, Vector v2) {
 		return new Vector(v1.x+v2.x, v1.y+v2.y, v1.z+v2.z);
@@ -58,7 +62,7 @@ public class BasicOperations {
 		return new Vector(i, j, k);
 	}
 	
-	public static Vector projVinU(Vector u, Vector v) {
+	public static Vector projVinU(Vector v, Vector u) {
 		double normU = vectorNorm(u);
 		double constant = scalarProduct(v, u) / (normU*normU);
 		return multiplyByConstant(u, constant);
