@@ -1,5 +1,7 @@
 package util;
 
+import java.util.ArrayList;
+
 import model.*;
 
 public class BasicOperations {
@@ -55,10 +57,10 @@ public class BasicOperations {
 		return (u.x*v.x + u.y*v.y + u.z*u.z);
 	}
 	
-	public static Vector vetorialProduct(Vector u, Vector v) {
+	public static Vector vectorProduct(Vector u, Vector v) {
 		double i = (u.y*v.z) - (u.z*v.y);
 		double j = (u.z*v.x) - (u.x*v.z);
-		double k = (u.x*v.y) - (u.y*v.x);;
+		double k = (u.x*v.y) - (u.y*v.x);
 		return new Vector(i, j, k);
 	}
 	
@@ -66,5 +68,27 @@ public class BasicOperations {
 		double normU = vectorNorm(u);
 		double constant = scalarProduct(v, u) / (normU*normU);
 		return multiplyByConstant(u, constant);
+	}
+	
+	public static Vector gramSchmidt(Vector v, Vector n){
+		return subVector(v, projVinU(v, n));
+	}
+	
+	public static Vector vertexNormalVector(Point p, ArrayList<Triangle> triangles){
+		Vector v = new Vector(0,0,0);
+		for(Triangle t : triangles){
+			if(t.hasPoints(p)){
+				v = sumVector(v, t.N);
+			}
+		}
+		return normalize(v);
+	}
+	
+	public static ArrayList<Vector> verticesNormalVectors(ArrayList<Point> points, ArrayList<Triangle> triangles){
+		ArrayList<Vector> normalVectors = new ArrayList<Vector>();
+		for(Point p : points){
+			normalVectors.add(vertexNormalVector(p, triangles));
+		}
+		return normalVectors;
 	}
 }

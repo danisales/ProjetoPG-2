@@ -4,11 +4,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import util.BasicOperations;
 import util.FileHandler;
 
 public class Camera {
 	public double d, hx, hy;
-	public Vector V, N;
+	public Vector V, N, U;
 	public Point C;
 	
 	public Camera(String filepath){
@@ -30,5 +31,9 @@ public class Camera {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		this.N = BasicOperations.normalize(this.N);
+		this.V = BasicOperations.normalize(BasicOperations.gramSchmidt(V, N));
+		this.U = BasicOperations.vectorProduct(N, V);
 	}
 }

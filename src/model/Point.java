@@ -11,6 +11,10 @@ public class Point {
 		this.z = z;
 	}
 	
+	public boolean equals(Point p){
+		return (this.x == p.x) && (this.y == p.y) && (this.z == p.z);
+	}
+	
 	public String toString(){
 		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
 	}

@@ -6,11 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import util.BasicOperations;
 import util.FileHandler;
 
 public class Object {
 	public ArrayList<Point> points;
 	public ArrayList<Triangle> triangles;
+	public ArrayList<Vector> normalVectorsPts;
 	
 	public Object(String filepath){
 		this.points = new ArrayList<Point>();
@@ -44,5 +46,7 @@ public class Object {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		
+		this.normalVectorsPts = BasicOperations.verticesNormalVectors(points, triangles);
 	}
 }
