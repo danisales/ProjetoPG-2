@@ -12,7 +12,6 @@ import util.FileHandler;
 public class Object {
 	public ArrayList<Point> points;
 	public ArrayList<Triangle> triangles;
-	public ArrayList<Vector> normalVectorsPts;
 	
 	public ArrayList<Point> viewCoordPoints;
 	public ArrayList<Triangle> viewCoordTriangle;
@@ -38,28 +37,29 @@ public class Object {
 			}
 			
 			for(int i = 0; i < nbTriangles; i++){
-				int[] pts = FileHandler.getInts(br.readLine());
-				
-				Point p1 = points.get(pts[0]-1);
-				Point p2 = points.get(pts[1]-1);
-				Point p3 = points.get(pts[2]-1);
-				
-				Triangle t = new Triangle(p1, p2, p3);
-				triangles.add(t);
-				
-				p1 = viewCoordPoints.get(pts[0]-1);
-				p2 = viewCoordPoints.get(pts[1]-1);
-				p3 = viewCoordPoints.get(pts[2]-1);
-				
-				t = new Triangle(p1, p2, p3);
-				viewCoordTriangle.add(t);
+				int[] vertices = FileHandler.getInts(br.readLine());
+				triangles.add(this.getTriangle(vertices, points));
+				viewCoordTriangle.add(this.getTriangle(vertices, viewCoordPoints));
+			}
+			
+			for(int i = 0; i < nbPoints; i++){
+				Point worldP = points.get(i);
+				Point viewP = viewCoordPoints.get(i);
+				worldP.N = BasicOperations.vertexNormalVector(worldP, triangles);
+				viewP.N = BasicOperations.vertexNormalVector(viewP, viewCoordTriangle);
 			}
 			
 			br.close();
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private Triangle getTriangle(int[] vertices, ArrayList<Point> points){
+		Point p1 = points.get(vertices[0]-1);
+		Point p2 = points.get(vertices[1]-1);
+		Point p3 = points.get(vertices[2]-1);
 		
-		this.normalVectorsPts = BasicOperations.verticesNormalVectors(points, triangles);
+		return new Triangle(p1, p2, p3);
 	}
 }

@@ -42,8 +42,13 @@ public class Test {
 		}
 		
 		System.out.println("Vertices Normal Vectors");
-		for(Vector v : o.normalVectorsPts) {
-			System.out.println(v.toString());
+		System.out.println("World");
+		for(Point p : o.points) {
+			System.out.println(p.N.toString());
+		}
+		System.out.println("View");
+		for(Point p : o.viewCoordPoints) {
+			System.out.println(p.N.toString());
 		}
 		
 		System.out.println("Triangles");

@@ -4,6 +4,7 @@ public class Point {
 	public double x;
 	public double y;
 	public double z;
+	public Vector N; // Normal vector
 	
 	public Point(double x, double y, double z){
 		this.x = x;
