@@ -17,7 +17,7 @@ public class Illumination {
 	public double n;
 	public ArrayList<Light> lights;
 	
-	public Illumination(String filepath){
+	public Illumination(String filepath, Camera c){
 		this.lights = new ArrayList<Light>();
 		
 		try {
@@ -35,7 +35,7 @@ public class Illumination {
 			for(int i = 0; i < nbLights; i++){
 				Point Pl = FileHandler.getPoint(br.readLine());
 				double[] Il = FileHandler.getDoubles(br.readLine());
-				lights.add(new Light(Pl, Il));
+				lights.add(new Light(c.worldToView(Pl), Il));
 			}
 			
 			br.close();

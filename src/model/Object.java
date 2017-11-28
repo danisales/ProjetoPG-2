@@ -14,7 +14,7 @@ public class Object {
 	public ArrayList<Triangle> triangles;
 	public ArrayList<Vector> normalVectorsPts;
 	
-	public Object(String filepath){
+	public Object(String filepath, Camera c){
 		this.points = new ArrayList<Point>();
 		this.triangles = new ArrayList<Triangle>();
 		
@@ -28,7 +28,7 @@ public class Object {
 			
 			for(int i = 0; i < nbPoints; i++){
 				Point p = FileHandler.getPoint(br.readLine());
-				points.add(p);
+				points.add(c.worldToView(p));
 			}
 			
 			for(int i = 0; i < nbTriangles; i++){

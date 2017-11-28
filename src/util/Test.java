@@ -27,7 +27,13 @@ public class Test {
 		
 		System.out.println();
 		
-		Object o = new Object("inputs/objeto.byu");
+		System.out.println("Change of basis");
+		Point testPt = new Point(10, 20, 30);
+		System.out.println(c.worldToView(testPt).toString());
+		
+		System.out.println();
+		
+		Object o = new Object("inputs/objeto.byu", c);
 		System.out.println("Object\n");
 		
 		System.out.println("Points");
@@ -52,7 +58,7 @@ public class Test {
 		
 		System.out.println();
 		
-		Illumination i = new Illumination("inputs/iluminacao.txt");
+		Illumination i = new Illumination("inputs/iluminacao.txt", c);
 		System.out.println("Illumination\n");
 		
 		System.out.println(i.ka);
@@ -70,8 +76,8 @@ public class Test {
 		}
 
 		
-		int [][] m1 = new int[3][4];
-		int [][] m2 = new int[4][8];
+		double [][] m1 = new double[3][4];
+		double [][] m2 = new double[4][8];
 		
 		System.out.println();
 		System.out.println("Matrix 1:");
