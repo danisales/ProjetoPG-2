@@ -2,14 +2,14 @@ package model;
 
 public class Matrix {
 	int c, l;
-	int matrix[][];
+	double matrix[][];
 	public Matrix(int l, int c) {
 		this.l = l;
 		this.c = c;
-		matrix = new int[l][c];
+		matrix = new double[l][c];
 	}
 	
-	public void setMatrix(int [][]m) {
+	public void setMatrix(double [][]m) {
 		this.matrix = m;
 	}
 	
@@ -17,11 +17,11 @@ public class Matrix {
 	
 		if(m.c != n.l)throw new Exception("Invalid parameters!");
 	
-		int [][] M = m.matrix;
-		int[][] N = n.matrix;
+		double [][] M = m.matrix;
+		double[][] N = n.matrix;
 		Matrix R = new Matrix(m.l, n.c);
-		int [][] r = R.matrix;
-		int aux = 0;
+		double [][] r = R.matrix;
+		double aux = 0;
 		
 		for(int i = 0;i< m.l ;i++) {
 			for(int j = 0; j< n.c;j++) {
@@ -37,12 +37,12 @@ public class Matrix {
 		return  R;
 	}
 	
-	public static Matrix multiply(int [][] m, int [][] n) throws Exception {
+	public static Matrix multiply(double [][] m, double [][] n) throws Exception {
 		
-		int [][] M = m;
-		int[][] N = n;
+		double [][] M = m;
+		double[][] N = n;
 		Matrix R = new Matrix(m.length, n[0].length);
-		int [][] r = R.matrix;
+		double [][] r = R.matrix;
 		int aux = 0;
 		
 		for(int i = 0;i< m.length ;i++) {
@@ -60,7 +60,7 @@ public class Matrix {
 	}
 	
 	public static void toString(Matrix m) {
-		int [][] matrix = m.matrix;
+		double [][] matrix = m.matrix;
 		for(int i = 0;i<m.l;i++) {
 			for(int j = 0;j<m.c;j++) {
 				System.out.print(matrix[i][j]+" ");
