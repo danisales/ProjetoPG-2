@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 import util.BasicOperations;
@@ -32,7 +33,7 @@ public class Triangle {
 		points.add(v.p1);
 		points.add(v.p2);
 		points.add(v.p3);
-		points.sort(new Comparator<Point>() {
+		Collections.sort(points, new Comparator<Point>() {
 			public int compare(Point p1, Point p2) {
 				return p1.y != p2.y? ((p1.y < p2.y)? 1:0) : ((p1.x < p2.x)?1:0);
 			}
