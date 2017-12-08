@@ -18,5 +18,13 @@ public class Point {
 	
 	public String toString(){
 		return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+	}	
+	
+	// pro caso das coisas serem invertidas, mudar aqui
+	public boolean xGreaterThan(Point p){
+		return x > p.x;
+	}
+	public boolean yGreaterThan(Point p){
+		return y > p.y;
 	}
 }
