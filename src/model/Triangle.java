@@ -28,7 +28,7 @@ public class Triangle {
 		return BasicOperations.normalize(normal);
 	}
 	
-	public static ArrayList <Point> sortPointsOfTriangle(Triangle v) {
+	public static Triangle sortPointsOfTriangle(Triangle v) {
 		ArrayList <Point> points = new ArrayList<Point>();
 		points.add(v.p1);
 		points.add(v.p2);
@@ -38,14 +38,11 @@ public class Triangle {
 				return p1.y != p2.y? ((p1.y < p2.y)? 1:0) : ((p1.x < p2.x)?1:0);
 			}
 		});
-		return points;
+		return new Triangle(points.get(0), points.get(1), points.get(2));
 	}
 	
 	
 	public static double getAlfa(Point p1, Point p2) {
-		if(p1.x==p2.x)return -1; //Pontos no mesmo X
-		if(p1.y==p2.y)return -2; // Pontos no mesmo Y
-		
 		return (p2.y - p1.y)/(p2.x - p1.x);
 	}
 	
@@ -59,22 +56,33 @@ public class Triangle {
 		return currentX+(1/alfa);
 	}
 	
-	public static ArrayList<Triangle> splitTriangle(Triangle t){
-		//TODO
-		
-		return null;
+	public static Triangle[] splitTriangle(Triangle t){
+		Triangle tAux = Triangle.sortPointsOfTriangle(t);
+		double y = t.p2.y;
+		double x = ((tAux.p2.y - tAux.p1.y) / Triangle.getAlfa(tAux.p1, tAux.p3)) + tAux.p1.x; // y - y1 = alfa * (x - x1)
+		Point p = new Point(x, y, 0);
+		Triangle t1 = new Triangle(tAux.p1, tAux.p2, p);
+		Triangle t2 = new Triangle(tAux.p2, p, tAux.p3);
+		return new Triangle[] {t1, t2};
 	}
 	
 	public static void main(String args[]) {
-		Triangle t = new Triangle(new Point(10,20,30), new Point(40,20,60), new Point(80,90,100));
-		ArrayList <Point> points = new ArrayList<Point>();
-		points.add(t.p2);
-		points.add(t.p3);
-		points.add(t.p1);
-		points = sortPointsOfTriangle(t);
+		Triangle t = new Triangle(new Point(10,20,0), new Point(40,30,0), new Point(60,70,0));
+		t = sortPointsOfTriangle(t);
 		
-		for(Point p : points) {
-			System.out.println("X: "+p.x+" Y: "+p.y);
-		}
+		System.out.println(t.p1.toString());
+		System.out.println(t.p2.toString());
+		System.out.println(t.p3.toString());
+		
+		Triangle[] ts = Triangle.splitTriangle(t);  
+		System.out.println(ts[0].p3.toString());
+		System.out.println("T1");
+		System.out.println(ts[0].p1.toString());
+		System.out.println(ts[0].p2.toString());
+		System.out.println(ts[0].p3.toString());
+		System.out.println("T2");
+		System.out.println(ts[1].p1.toString());
+		System.out.println(ts[1].p2.toString());
+		System.out.println(ts[1].p3.toString());
 	}
 }
