@@ -14,13 +14,18 @@ public class Object {
 	public ArrayList<Triangle> triangles;
 	
 	public ArrayList<Point> viewCoordPoints;
-	public ArrayList<Triangle> viewCoordTriangle;
+	public ArrayList<Triangle> viewCoordTriangles;
+	
+	public ArrayList<Point> screenCoordPoints;
+	public ArrayList<Triangle> screenCoordTriangles;
 	
 	public Object(String filepath, Camera c){
 		this.points = new ArrayList<Point>();
 		this.triangles = new ArrayList<Triangle>();
 		this.viewCoordPoints = new ArrayList<Point>();
-		this.viewCoordTriangle = new ArrayList<Triangle>();
+		this.viewCoordTriangles = new ArrayList<Triangle>();
+		this.screenCoordPoints = new ArrayList<Point>();
+		this.screenCoordTriangles = new ArrayList<Triangle>();
 
 		try {
 			FileReader fr = new FileReader(new File(filepath));
@@ -34,19 +39,24 @@ public class Object {
 				Point p = FileHandler.getPoint(br.readLine());
 				points.add(p);
 				viewCoordPoints.add(c.worldToView(p));
+				screenCoordPoints.add(c.viewToScreen(p));
 			}
 			
 			for(int i = 0; i < nbTriangles; i++){
 				int[] vertices = FileHandler.getInts(br.readLine());
 				triangles.add(this.getTriangle(vertices, points));
-				viewCoordTriangle.add(this.getTriangle(vertices, viewCoordPoints));
+				viewCoordTriangles.add(this.getTriangle(vertices, viewCoordPoints));
+				System.out.println(viewCoordTriangles.size());
+				screenCoordTriangles.add(this.getTriangle(vertices, screenCoordPoints));
 			}
 			
 			for(int i = 0; i < nbPoints; i++){
 				Point worldP = points.get(i);
 				Point viewP = viewCoordPoints.get(i);
+				Point screenP = screenCoordPoints.get(i);
 				worldP.N = BasicOperations.vertexNormalVector(worldP, triangles);
-				viewP.N = BasicOperations.vertexNormalVector(viewP, viewCoordTriangle);
+				viewP.N = BasicOperations.vertexNormalVector(viewP, viewCoordTriangles);
+				screenP.N = BasicOperations.vertexNormalVector(screenP, screenCoordTriangles);
 			}
 			
 			br.close();

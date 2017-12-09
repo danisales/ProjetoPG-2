@@ -12,7 +12,10 @@ public class Camera {
 	public Vector V, N, U;
 	public Point C;
 	
-	public Camera(String filepath){
+	public int width;
+	public int height;
+	
+	public Camera(String filepath, int width, int height){
 		try {
 			FileReader fr = new FileReader(new File(filepath));
 			BufferedReader br = new BufferedReader(fr);
@@ -35,9 +38,18 @@ public class Camera {
 		this.N = BasicOperations.normalize(this.N);
 		this.V = BasicOperations.normalize(BasicOperations.gramSchmidt(V, N));
 		this.U = BasicOperations.vectorProduct(N, V);
+		this.width = width;
+		this.height = height;
 	}
 	
 	public Point worldToView(Point p){
 		return BasicOperations.subPoints(p, this.C);
+	}
+	
+	public Point viewToScreen(Point p){
+		Point pAux = new Point((d/hx)*(p.x/p.z), (d/hy)*(p.y/p.z),0);
+		int x = ((int)((pAux.x + 1) * (this.width/2)));
+		int y = ((int)((1 - pAux.y) * (this.height/2)));
+		return new Point(x, y, 0);
 	}
 }

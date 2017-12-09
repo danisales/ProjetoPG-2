@@ -13,7 +13,7 @@ import model.Vector;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
-		Camera c = new Camera("inputs/camera.cfg");
+		Camera c = new Camera("inputs/camera.cfg", 800, 800);
 		System.out.println("Camera\n");
 		
 		System.out.println(c.C.toString());
@@ -37,7 +37,16 @@ public class Test {
 		System.out.println("Object\n");
 		
 		System.out.println("Points");
+		System.out.println("World");
 		for(Point p : o.points){
+			System.out.println(p.toString());
+		}
+		System.out.println("View");
+		for(Point p : o.viewCoordPoints){
+			System.out.println(p.toString());
+		}
+		System.out.println("Screen");
+		for(Point p : o.screenCoordPoints){
 			System.out.println(p.toString());
 		}
 		
@@ -50,10 +59,14 @@ public class Test {
 		for(Point p : o.viewCoordPoints) {
 			System.out.println(p.N.toString());
 		}
+		System.out.println("Screen");
+		for(Point p : o.screenCoordPoints) {
+			System.out.println(p.N.toString());
+		}
 		
 		System.out.println("Triangles");
 				
-		for(Triangle t : o.triangles){
+		for(Triangle t : o.screenCoordTriangles){
 			System.out.println("P1: " + t.p1.toString());
 			System.out.println("P2: " + t.p2.toString());
 			System.out.println("P3: " + t.p3.toString());
