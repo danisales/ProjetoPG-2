@@ -35,7 +35,7 @@ public class Triangle {
 		points.add(v.p3);
 		Collections.sort(points, new Comparator<Point>() {
 			public int compare(Point p1, Point p2) {
-				return p1.y != p2.y? ((p1.y < p2.y)? 1:0) : ((p1.x < p2.x)?1:0);
+				return p1.y != p2.y? ((p1.y < p2.y)? 1:-1) : ((p1.x > p2.x)?1:-1);
 			}
 		});
 		return new Triangle(points.get(0), points.get(1), points.get(2));
@@ -67,14 +67,15 @@ public class Triangle {
 	}
 	
 	public static void main(String args[]) {
-		Triangle t = new Triangle(new Point(10,20,0), new Point(40,30,0), new Point(60,70,0));
-		t = sortPointsOfTriangle(t);
+		Triangle t = new Triangle(new Point(2,5,0), new Point(-2,5,0), new Point(0,10,0));
+		Triangle t2 = sortPointsOfTriangle(t);
 		
-		System.out.println(t.p1.toString());
-		System.out.println(t.p2.toString());
-		System.out.println(t.p3.toString());
+		System.out.println(t2.p1.toString());
+		System.out.println(t2.p2.toString());
+		System.out.println(t2.p3.toString());
+		System.out.println();
 		
-		Triangle[] ts = Triangle.splitTriangle(t);  
+		Triangle[] ts = Triangle.splitTriangle(t2);
 		System.out.println(ts[0].p3.toString());
 		System.out.println("T1");
 		System.out.println(ts[0].p1.toString());
