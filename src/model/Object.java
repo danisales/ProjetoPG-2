@@ -46,7 +46,6 @@ public class Object {
 				int[] vertices = FileHandler.getInts(br.readLine());
 				triangles.add(this.getTriangle(vertices, points));
 				viewCoordTriangles.add(this.getTriangle(vertices, viewCoordPoints));
-				System.out.println(viewCoordTriangles.size());
 				screenCoordTriangles.add(this.getTriangle(vertices, screenCoordPoints));
 			}
 			
