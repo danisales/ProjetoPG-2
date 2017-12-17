@@ -38,8 +38,9 @@ public class Object {
 			for(int i = 0; i < nbPoints; i++){
 				Point p = FileHandler.getPoint(br.readLine());
 				points.add(p);
-				viewCoordPoints.add(c.worldToView(p));
-				screenCoordPoints.add(c.viewToScreen(p));
+				Point view = c.worldToView(p);
+				viewCoordPoints.add(view);
+				screenCoordPoints.add(c.viewToScreen(view));
 			}
 			
 			for(int i = 0; i < nbTriangles; i++){
