@@ -15,8 +15,8 @@ import model.Point;
 import model.Triangle;
 
 public class GUI extends JPanel implements Canvas4ModelPainting {
-	final int WIDTH = 900;
-	final int HEIGHT = 600;
+	final int WIDTH = 640;
+	final int HEIGHT = 480;
 	private BufferedImage canvas;
 	
 	private Camera camera;
@@ -29,6 +29,7 @@ public class GUI extends JPanel implements Canvas4ModelPainting {
 		this.camera = new Camera("inputs/camera.cfg", WIDTH, HEIGHT);
 		this.object = new Object("inputs/objeto.byu", camera);
 		this.tf = new TriangleFilling(this, WIDTH, HEIGHT);
+		this.drawTriangles();
 	}
 	
 	public Dimension getPreferredSize() {
@@ -41,10 +42,9 @@ public class GUI extends JPanel implements Canvas4ModelPainting {
         g2.drawImage(canvas, null, null);
     }
 	
-	public void drawTriangle(){
-		Triangle t = object.screenCoordTriangles.get(1);
+	public void drawTriangles(){
 		try {
-			tf.drawOne(t);
+			tf.drawMany(object.screenCoordTriangles);
 			repaint();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
