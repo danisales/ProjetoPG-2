@@ -46,6 +46,22 @@ public class Triangle {
 		return (p2.y - p1.y)/(p2.x - p1.x);
 	}
 	
+	public static double area(Triangle t){
+		Vector BA = BasicOperations.subPointToVector(t.p2, t.p1);
+		Vector CA = BasicOperations.subPointToVector(t.p3, t.p1);
+		return BasicOperations.vectorNorm(BasicOperations.vectorProduct(BA, CA)) / 2;
+	}
+	
+	public double[] getBarycentricCoordinates(Point p){
+		double areaABC = Triangle.area(this);
+		Triangle PBC = new Triangle(p, this.p2, this.p3);
+		Triangle PCA = new Triangle(p, this.p3, this.p1);
+		double alpha = Triangle.area(PBC) / areaABC;
+		double beta = Triangle.area(PCA) / areaABC;
+		double gamma = 1 - alpha - beta;
+		return new double[] {alpha, beta, gamma};
+	}
+	
 	//Usa o alfa de P1 e P2
 	public static double getXMin(double currentX, double alfa) {
 		return currentX+(1/alfa);
@@ -87,5 +103,22 @@ public class Triangle {
 		System.out.println(ts[1].p1.toString());
 		System.out.println(ts[1].p2.toString());
 		System.out.println(ts[1].p3.toString());
+		
+		System.out.println();
+		System.out.println("Triangle area");
+		Point p1 = new Point(-2, (double)5/2, 0);
+		Point p2 = new Point(3, 0, 0);
+		Point p3 = new Point(2, 5, 0);
+		Triangle t3 = new Triangle(p1, p2, p3);
+		System.out.println(Triangle.area(t3));
+		
+		System.out.println();
+		System.out.println("Barycentric Coodinates");
+		Point p = new Point((double)1/2, (double) 7/2, 0);
+		double[] b = t3.getBarycentricCoordinates(p);
+		System.out.println("alpha = " + b[0]);
+		System.out.println("beta = " + b[1]);
+		System.out.println("gama = " + b[2]);
+		
 	}
 }

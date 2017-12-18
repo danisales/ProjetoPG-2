@@ -15,6 +15,10 @@ public class BasicOperations {
 		return new Point(p1.x-p2.x, p1.y-p2.y, p1.z-p2.z);	
 	}
 	
+	public static Vector subPointToVector(Point p1, Point p2) {
+		return new Vector(p1.x-p2.x, p1.y-p2.y, p1.z-p2.z);	
+	}
+	
 	public static Point pointByConstant(Point p, double c) {
 		return new Point((p.x)*c, (p.y)*c, (p.z)*c);
 	}
@@ -29,8 +33,7 @@ public class BasicOperations {
 	
 	public static Vector subVector(Vector v1, Vector v2) {
 		return new Vector(v1.x-v2.x, v1.y-v2.y, v1.z-v2.z);	
-	}
-		
+	}	
 	
 	public static Vector multiplyByConstant(Vector v, double c) {
 		return new Vector(c*v.x, c*v.y, c*v.z);
