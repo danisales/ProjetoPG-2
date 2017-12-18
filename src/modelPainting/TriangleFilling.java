@@ -37,12 +37,6 @@ public class TriangleFilling {
 		}
 		return z;
 	}
-	public void drawObject(){
-		ArrayList<Triangle> screen = o.screenCoordTriangles;
-		for(int i = 0; i < screen.size(); i++){
-			drawOne(screen.get(i), i);
-		}
-	}
 	public void drawMany(ArrayList<Triangle> ts) {
 		for(int i = 0; i < ts.size(); i++)
 			drawOne(ts.get(i), i);
