@@ -28,7 +28,7 @@ public class GUI extends JPanel implements Canvas4ModelPainting {
 		
 		this.camera = new Camera("inputs/camera.cfg", WIDTH, HEIGHT);
 		this.object = new Object("inputs/objeto.byu", camera);
-		this.tf = new TriangleFilling(this, WIDTH, HEIGHT);
+		this.tf = new TriangleFilling(this, WIDTH, HEIGHT, object);
 		this.drawTriangles();
 	}
 	
@@ -43,13 +43,8 @@ public class GUI extends JPanel implements Canvas4ModelPainting {
     }
 	
 	public void drawTriangles(){
-		try {
-			tf.drawMany(object.screenCoordTriangles);
-			repaint();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		tf.drawMany(object.screenCoordTriangles);
+		repaint();
 	}
 	
 	@Override

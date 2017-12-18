@@ -4,37 +4,55 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import model.Triangle;
+import util.BasicOperations;
+import model.Object;
+import model.Point;
 
 public class TriangleFilling {
 	
 	Canvas4ModelPainting canvas;
 	int width;
 	int height;
-	
+	double[][] zBuffer;
+	Object o;
 	public static void main(String[] args) {
 		
 	}
 	
-	public TriangleFilling(Canvas4ModelPainting c, int width, int height){
+	public TriangleFilling(Canvas4ModelPainting c, int width, int height, Object o){
 		this.canvas = c;
 		this.width = width;
 		this.height = height;
+		this.zBuffer = this.initZBuffer();
+		this.o = o;
 	}
 	public void setCanvas(Canvas4ModelPainting c){
 		canvas = c;
 	}
-	public void drawMany(ArrayList<Triangle> ts) throws Exception{
-		for(Triangle t : ts)
-			drawOne(t);
+	private double[][] initZBuffer(){
+		double[][] z = new double[this.width][this.height];
+		for(int i = 0; i < this.width; i++){
+			for(int j = 0; j < this.height; j++)
+				z[i][j] = Double.POSITIVE_INFINITY;
+		}
+		return z;
 	}
-	public void drawOne(Triangle t) throws Exception{
-		if(canvas == null)
-			throw new Exception("Faltou chamar setCanvas, fella");
+	public void drawObject(){
+		ArrayList<Triangle> screen = o.screenCoordTriangles;
+		for(int i = 0; i < screen.size(); i++){
+			drawOne(screen.get(i), i);
+		}
+	}
+	public void drawMany(ArrayList<Triangle> ts) {
+		for(int i = 0; i < ts.size(); i++)
+			drawOne(ts.get(i), i);
+	}
+	public void drawOne(Triangle t, int index) {
 		t = Triangle.sortPointsOfTriangle(t);
 		if(t.p2.y == t.p3.y)
-			bottomFlat(t);
+			bottomFlat(t, index);
 		else if(t.p1.y == t.p2.y)
-			topFlat(t);
+			topFlat(t, index);
 		else {
 			Triangle[] ts = Triangle.splitTriangle(t);
 			Triangle t1 = ts[0];
@@ -45,12 +63,12 @@ public class TriangleFilling {
 			System.out.println("Triangle 2");
 			System.out.println(t2.p1 + " " + t2.p2 + " " + t2.p3);
 			
-			bottomFlat(t1);
-			topFlat(t2);
+			bottomFlat(t1, index);
+			topFlat(t2, index);
 		}
 	}
 	
-	private void bottomFlat(Triangle t){
+	private void bottomFlat(Triangle t, int index){
 		double invAlfa1 = 1 / Triangle.getAlfa(t.p1, t.p2);
 		double invAlfa2 = 1 / Triangle.getAlfa(t.p1, t.p3);
 		
@@ -64,23 +82,19 @@ public class TriangleFilling {
 		double xMin = (int)t.p1.x;
 		double xMax = (int)t.p1.x;
 		
-		for(int y = (int)t.p1.y; y <= (int)t.p2.y; y++){
+		for(int y = (int)t.p1.y; y <= t.p2.y; y++){
 			if(xMin > xMax){
 				double temp = xMax;
 				xMax = xMin;
 				xMin = temp;
 			}
-			for(int x = (int)xMin; x <= xMax; x++){	
-				if(insideScreen(x, y)) {
-					canvas.drawPixel((int)x, (int)y, new Color(0,0,0));
-				}
-			}
+			drawLine(xMin, xMax, y, new Color(0,0,0), index);
 			xMin += invAlfa1;
 			xMax += invAlfa2;
 		}
 	}
 	
-	private void topFlat(Triangle t){
+	private void topFlat(Triangle t, int index){
 		double invAlfa1 = (1 / Triangle.getAlfa(t.p1, t.p3));
 		double invAlfa2 = (1 / Triangle.getAlfa(t.p3, t.p2));
 		double xMin = (int)t.p3.x;
@@ -89,23 +103,43 @@ public class TriangleFilling {
 		System.out.println("Top flat, invalfa 1 " + invAlfa1);
 		System.out.println("Top flat, invalfa 2 " + invAlfa2);
 		
-		for(int y = (int)t.p3.y; y >= (int)t.p1.y; y--){
+		for(int y = (int)t.p3.y; y >= t.p1.y; y--){
 			if(xMin > xMax){
 				double temp = xMax;
 				xMax = xMin;
 				xMin = temp;
 			}
-			for(int x = (int)xMin; x <= xMax; x++){
-				if(insideScreen(x, y)) {
-					canvas.drawPixel((int)x, (int)y, new Color(0,0,0));
-				}
-			}
+			drawLine(xMin, xMax, y, new Color(0,0,0), index);
 			xMin -= invAlfa1;
 			xMax -= invAlfa2;
 		}
 	}
 	
+	private void checkPoint(int x, int y, int index){
+		Point p = new Point(x, y, 0);
+		double[] baryCoord = o.viewCoordTriangles.get(index).getBarycentricCoordinates(p);
+		Triangle t = o.viewCoordTriangles.get(index);
+		Point newP1 = BasicOperations.pointByConstant(t.p1, baryCoord[0]);
+		Point newP2 = BasicOperations.pointByConstant(t.p2, baryCoord[1]);
+		Point newP3 = BasicOperations.pointByConstant(t.p3, baryCoord[2]);
+		Point newP = BasicOperations.sumPoints(newP1, BasicOperations.sumPoints(newP2, newP3));
+		
+		
+		if(newP.z < zBuffer[x][y]){
+			zBuffer[x][y] = newP.z;
+			canvas.drawPixel((int)x, (int)y, new Color(0,0,0));
+		}
+	}
+	
+	private void drawLine(double xMin, double xMax, int y, Color c, int index){
+		for(int x = (int)xMin; x <= xMax; x++){
+			if(insideScreen(x, y)) {
+				this.checkPoint(x, y, index);
+			}
+		}
+	}
+	
 	private boolean insideScreen(int x, int y){
-		return y >= 0 && y <= height && x >= 0 && x <= width;
+		return y >= 0 && y < height && x >= 0 && x < width;
 	}
 }
