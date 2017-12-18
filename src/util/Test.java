@@ -1,7 +1,5 @@
 package util;
 
-import java.util.ArrayList;
-
 import model.Camera;
 import model.Illumination;
 import model.Light;
@@ -9,7 +7,6 @@ import model.Matrix;
 import model.Object;
 import model.Point;
 import model.Triangle;
-import model.Vector;
 
 public class Test {
 	public static void main(String[] args) throws Exception {
@@ -89,7 +86,7 @@ public class Test {
 		System.out.println("Lights");
 		for(Light l : i.lights){
 			System.out.println(l.Pl.toString());
-			System.out.println(l.Il[0] + " " + l.Il[1] + " " + l.Il[2]);
+			System.out.println(l.Il);
 			System.out.println();
 		}
 

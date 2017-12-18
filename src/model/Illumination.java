@@ -34,7 +34,7 @@ public class Illumination {
 			int nbLights = FileHandler.getInts(br.readLine())[0];
 			for(int i = 0; i < nbLights; i++){
 				Point Pl = FileHandler.getPoint(br.readLine());
-				double[] Il = FileHandler.getDoubles(br.readLine());
+				Vector Il = FileHandler.getVector(br.readLine());
 				lights.add(new Light(c.worldToView(Pl), Il));
 			}
 			
