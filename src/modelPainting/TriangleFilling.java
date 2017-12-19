@@ -116,7 +116,7 @@ public class TriangleFilling {
 	
 	private void checkPoint(int x, int y, int index){
 		Point p = new Point(x, y, 0);
-		double[] baryCoord = o.viewCoordTriangles.get(index).getBarycentricCoordinates(p);
+		double[] baryCoord = o.screenCoordTriangles.get(index).getBarycentricCoordinates(p);
 		Triangle t = o.viewCoordTriangles.get(index);
 		
 		Point newP1 = BasicOperations.pointByConstant(t.p1, baryCoord[0]);
