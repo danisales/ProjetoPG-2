@@ -4,9 +4,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import model.Triangle;
-import util.BasicOperations;
+import model.Vector;
 import model.Object;
 import model.Point;
+import model.Illumination;
+
+import util.BasicOperations;
 
 public class TriangleFilling {
 	
@@ -15,16 +18,18 @@ public class TriangleFilling {
 	int height;
 	double[][] zBuffer;
 	Object o;
+	Illumination i;
 	public static void main(String[] args) {
 		
 	}
 	
-	public TriangleFilling(Canvas4ModelPainting c, int width, int height, Object o){
+	public TriangleFilling(Canvas4ModelPainting c, int width, int height, Object o, Illumination i){
 		this.canvas = c;
 		this.width = width;
 		this.height = height;
 		this.zBuffer = this.initZBuffer();
 		this.o = o;
+		this.i = i;
 	}
 	public void setCanvas(Canvas4ModelPainting c){
 		canvas = c;
@@ -82,7 +87,7 @@ public class TriangleFilling {
 				xMax = xMin;
 				xMin = temp;
 			}
-			drawLine(xMin, xMax, y, new Color(0,0,0), index);
+			drawLine(xMin, xMax, y, index);
 			xMin += invAlfa1;
 			xMax += invAlfa2;
 		}
@@ -103,7 +108,7 @@ public class TriangleFilling {
 				xMax = xMin;
 				xMin = temp;
 			}
-			drawLine(xMin, xMax, y, new Color(0,0,0), index);
+			drawLine(xMin, xMax, y, index);
 			xMin -= invAlfa1;
 			xMax -= invAlfa2;
 		}
@@ -113,19 +118,24 @@ public class TriangleFilling {
 		Point p = new Point(x, y, 0);
 		double[] baryCoord = o.viewCoordTriangles.get(index).getBarycentricCoordinates(p);
 		Triangle t = o.viewCoordTriangles.get(index);
+		
 		Point newP1 = BasicOperations.pointByConstant(t.p1, baryCoord[0]);
 		Point newP2 = BasicOperations.pointByConstant(t.p2, baryCoord[1]);
 		Point newP3 = BasicOperations.pointByConstant(t.p3, baryCoord[2]);
 		Point newP = BasicOperations.sumPoints(newP1, BasicOperations.sumPoints(newP2, newP3));
 		
+		Vector newV1 = BasicOperations.multiplyByConstant(t.p1.N, baryCoord[0]);
+		Vector newV2 = BasicOperations.multiplyByConstant(t.p2.N, baryCoord[1]);
+		Vector newV3 = BasicOperations.multiplyByConstant(t.p3.N, baryCoord[2]);
+		Vector N = BasicOperations.sumVector(newV1, BasicOperations.sumVector(newV2, newV3));
 		
 		if(newP.z < zBuffer[x][y]){
 			zBuffer[x][y] = newP.z;
-			canvas.drawPixel((int)x, (int)y, new Color(0,0,0));
+			canvas.drawPixel((int)x, (int)y, i.getColor(newP, N));
 		}
 	}
 	
-	private void drawLine(double xMin, double xMax, int y, Color c, int index){
+	private void drawLine(double xMin, double xMax, int y, int index){
 		for(int x = (int)xMin; x <= xMax; x++){
 			if(insideScreen(x, y)) {
 				this.checkPoint(x, y, index);

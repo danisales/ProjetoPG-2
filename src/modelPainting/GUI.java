@@ -10,25 +10,33 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import model.Camera;
+import model.Illumination;
 import model.Object;
 import model.Point;
 import model.Triangle;
 
 public class GUI extends JPanel implements Canvas4ModelPainting {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	final int WIDTH = 640;
 	final int HEIGHT = 480;
 	private BufferedImage canvas;
 	
 	private Camera camera;
 	private Object object;
+	private Illumination illumination;
 	TriangleFilling tf;
+	
 	
 	public GUI(){
 		this.canvas = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 		this.camera = new Camera("inputs/camera.cfg", WIDTH, HEIGHT);
 		this.object = new Object("inputs/objeto.byu", camera);
-		this.tf = new TriangleFilling(this, WIDTH, HEIGHT, object);
+		this.illumination = new Illumination("inputs/iluminacao.txt", camera);
+		this.tf = new TriangleFilling(this, WIDTH, HEIGHT, object, illumination);
 		this.drawTriangles();
 	}
 	
