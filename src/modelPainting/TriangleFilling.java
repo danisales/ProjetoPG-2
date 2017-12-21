@@ -131,7 +131,7 @@ public class TriangleFilling {
 		
 		if(newP.z < zBuffer[x][y]){
 			zBuffer[x][y] = newP.z;
-			canvas.drawPixel((int)x, (int)y, i.getColor(newP, N));
+			canvas.drawPixel((int)x, (int)y, i.getColorMultiSources(newP, N));
 		}
 	}
 	
