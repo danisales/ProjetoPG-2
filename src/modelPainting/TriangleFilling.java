@@ -1,6 +1,5 @@
 package modelPainting;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import model.Triangle;
@@ -31,9 +30,11 @@ public class TriangleFilling {
 		this.o = o;
 		this.i = i;
 	}
+	
 	public void setCanvas(Canvas4ModelPainting c){
 		canvas = c;
 	}
+	
 	private double[][] initZBuffer(){
 		double[][] z = new double[this.width][this.height];
 		for(int i = 0; i < this.width; i++){
@@ -42,10 +43,12 @@ public class TriangleFilling {
 		}
 		return z;
 	}
+	
 	public void drawMany(ArrayList<Triangle> ts) {
 		for(int i = 0; i < ts.size(); i++)
 			drawOne(ts.get(i), i);
 	}
+	
 	public void drawOne(Triangle t, int index) {
 		t = Triangle.sortPointsOfTriangle(t);
 		if(t.p2.y == t.p3.y)
@@ -57,11 +60,11 @@ public class TriangleFilling {
 			Triangle t1 = ts[0];
 			Triangle t2 = ts[1];
 			
-			System.out.println("Triangle 1");
+			/*System.out.println("Triangle 1");
 			System.out.println(t1.p1 + " " + t1.p2 + " " + t1.p3);
 			System.out.println("Triangle 2");
-			System.out.println(t2.p1 + " " + t2.p2 + " " + t2.p3);
-			
+			System.out.println(t2.p1 + " " + t2.p2 + " " + t2.p3);*/
+				
 			bottomFlat(t1, index);
 			topFlat(t2, index);
 		}
@@ -71,12 +74,12 @@ public class TriangleFilling {
 		double invAlfa1 = 1 / Triangle.getAlfa(t.p1, t.p2);
 		double invAlfa2 = 1 / Triangle.getAlfa(t.p1, t.p3);
 		
-		System.out.println("Bottom flat, invalfa 1 " + invAlfa1);
+		/*System.out.println("Bottom flat, invalfa 1 " + invAlfa1);
 		System.out.println("Bottom flat, invalfa 2 " + invAlfa2);
 				
 		System.out.println(t.p1);
 		System.out.println(t.p2);
-		System.out.println(t.p3);
+		System.out.println(t.p3);*/
 		
 		double xMin = (int)t.p1.x;
 		double xMax = (int)t.p1.x;
@@ -99,8 +102,8 @@ public class TriangleFilling {
 		double xMin = (int)t.p3.x;
 		double xMax = (int)t.p3.x;
 		
-		System.out.println("Top flat, invalfa 1 " + invAlfa1);
-		System.out.println("Top flat, invalfa 2 " + invAlfa2);
+		/*System.out.println("Top flat, invalfa 1 " + invAlfa1);
+		System.out.println("Top flat, invalfa 2 " + invAlfa2);*/
 		
 		for(int y = (int)t.p3.y; y >= t.p1.y; y--){
 			if(xMin > xMax){
@@ -129,9 +132,11 @@ public class TriangleFilling {
 		Vector newV3 = BasicOperations.multiplyByConstant(t.p3.N, baryCoord[2]);
 		Vector N = BasicOperations.sumVector(newV1, BasicOperations.sumVector(newV2, newV3));
 		
-		if(newP.z < zBuffer[x][y]){
-			zBuffer[x][y] = newP.z;
-			canvas.drawPixel((int)x, (int)y, i.getColorMultiSources(newP, N));
+		if(insideScreen(x, y)){
+			if(newP.z < zBuffer[x][y]){
+				zBuffer[x][y] = newP.z;
+				canvas.drawPixel((int)x, (int)y, i.getColorMultiSources(newP, N));
+			}
 		}
 	}
 	

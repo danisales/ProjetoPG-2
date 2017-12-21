@@ -77,7 +77,6 @@ public class Triangle {
 		double y = t.p2.y;
 		double x = tAux.p1.x + ((tAux.p2.y - tAux.p1.y) / (tAux.p3.y - tAux.p1.y) * (tAux.p3.x - tAux.p1.x)); 
 		//double x = ((tAux.p2.y - tAux.p1.y) / Triangle.getAlfa(tAux.p1, tAux.p3)) + tAux.p1.x; // y - y1 = alfa * (x - x1)
-		System.out.println(x);
 		Point p = new Point(x, y, 0);
 		Triangle t1 = new Triangle(tAux.p1, tAux.p2, p);
 		Triangle t2 = new Triangle(tAux.p2, p, tAux.p3);
