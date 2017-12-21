@@ -4,24 +4,27 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import model.Camera;
 import model.Illumination;
 import model.Object;
-import model.Point;
-import model.Triangle;
 
 public class GUI extends JPanel implements Canvas4ModelPainting {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	final int WIDTH = 640;
-	final int HEIGHT = 480;
+	final int WIDTH = 740;
+	final int HEIGHT = 580;
 	private BufferedImage canvas;
 	
 	private Camera camera;
@@ -32,17 +35,77 @@ public class GUI extends JPanel implements Canvas4ModelPainting {
 	
 	public GUI(){
 		this.canvas = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		this.userInput();
+	}
+	
+	public void userInput(){
+		Dimension dimension = new Dimension(125, 25);
 		
-		this.camera = new Camera("inputs/camera.cfg", WIDTH, HEIGHT);
-		this.object = new Object("inputs/objeto.byu", camera);
-		this.illumination = new Illumination("inputs/iluminacao.txt", camera);
-		this.tf = new TriangleFilling(this, WIDTH, HEIGHT, object, illumination);
+		JLabel camLabel = new JLabel("Camera");
+		this.add(camLabel);
+		
+		final JTextField cameraTxt = new JTextField("inputs/camera.cfg");
+		cameraTxt.setPreferredSize(dimension);
+	    this.add(cameraTxt);
+	    
+	    JLabel objLabel = new JLabel("Objeto");
+		this.add(objLabel);
+		
+	    final JTextField objectTxt = new JTextField("inputs/objeto.byu");
+	    objectTxt.setPreferredSize(dimension);
+	    this.add(objectTxt);
+	    
+	    JLabel illumLabel = new JLabel("Iluminação");
+		this.add(illumLabel);
+		
+	    final JTextField illuminationTxt = new JTextField("inputs/iluminacao.txt");
+	    illuminationTxt.setPreferredSize(dimension);
+	    this.add(illuminationTxt);
+		
+		JButton button = new JButton("Renderizar");
+		this.add(button);
+		button.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				repaint();
+				setup(cameraTxt.getText(), objectTxt.getText(), illuminationTxt.getText());
+			}	
+		});
+	}
+	
+	public void setup(String camera, String object, String illumination){
+		System.out.println("Loading camera");
+		this.camera = new Camera(camera, WIDTH, HEIGHT);
+		System.out.println("done");
+		
+		System.out.println("Loading object");
+		this.object = new Object(object, this.camera);
+		System.out.println("done");
+		
+		System.out.println("Loading illumination");
+		this.illumination = new Illumination(illumination, this.camera);
+		System.out.println("done");
+		
+		this.tf = new TriangleFilling(this, WIDTH, HEIGHT, this.object, this.illumination);
+		this.clearCanvas();
+		
+		System.out.println("Rendering");
 		this.drawTriangles();
+		System.out.println("done");
 	}
 	
 	public Dimension getPreferredSize() {
         return new Dimension(canvas.getWidth(), canvas.getHeight());
     }
+	
+	public void clearCanvas(){
+		for(int i = 0; i < canvas.getWidth(); i++){
+			for(int j = 0; j < canvas.getHeight(); j++){
+				canvas.setRGB(i, j, new Color(237, 237, 237).getRGB());
+			}
+		}
+		repaint();
+	}
 	
 	public void paintComponent(Graphics g) {
         super.paintComponent(g);
